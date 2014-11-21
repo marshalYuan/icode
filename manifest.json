@@ -1,0 +1,32 @@
+{
+	"name": "就爱二维码",
+	"version": "1.0",
+	"manifest_version": 2,
+	"description": "快速转换资源地址为二维码的chrome插件",
+	"permissions": [
+		"notifications",
+		"tabs",  
+		"contextMenus",  
+		"http://*/*"  
+    ],
+	"icons": {
+		"16": "img/icon16.png",             
+		"48": "img/icon48.png",            
+		"128": "img/icon128.ico"
+	},
+	"content_scripts": [
+        {
+            "matches": ["*://*/*"],
+            "js": ["lib/qrcode.js","script/draw.js"]
+        }
+    ],
+	"options_page": "html/options.html",
+	"background": {
+		"scripts": ["lib/socket.io.js","script/background.js"] 
+	},
+	"browser_action": {
+		"default_icon": "img/icon16.png", 
+		"default_title": "iCode",     
+		"default_popup": "html/popup.html"
+	}
+}
