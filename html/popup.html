@@ -4,15 +4,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
     <meta charset="UTF-8">
     <title></title>
-    <script src="popup.js"></script>
+    <script src="../lib/qrcode.min.js"></script>
+    <script src="../script/popup.js"></script>
     <style>
          body{
             margin:0px;
             padding:4px;
             font-size:14px;
             color:#333;
-            width:150px;
-            background:url(bg_off.png);
+            background: #ccc;
          }
          .wrapper{
             background:#fff;
@@ -47,20 +47,28 @@
             top:-3px;
             float:right;
          }
+         form{
+            width: 300px;
+         }
+         form > *{
+            display: inline;
+         }
+         #qrcode_wrapper img{
+            margin: 10px auto;
+         }
     </style>
 </head>
 <body>
    <div class="wrapper clearfix">
-   <div class="title">SocketLog 设置</div>
-   <form action="">
-      监听地址： <input type="input" id="address" value="qushu" /> <br />
-      Client_ID： <input type="input" id="client_id"  value="" /> <br />
-      <button type="button" id="save">保 存</button>
-      <div class="status">
-      状态：<span id="status">正在连接...</span>
-      <!--/help-->
-     </div><!--/status-->
-   </form> 
+     <div class="title">转换你想要的内容为二维码</div>
+       <form action="" class="clearfix">
+          <label for="">转换内容：</label>
+          <input type="text" id="content">
+          <button type="submit">转化</button>
+       </form>
+       <div id="qrcode_wrapper">
+         
+       </div> 
    </div>
 </body>
 </html>

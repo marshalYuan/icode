@@ -1,49 +1,26 @@
-/**
- * github: https://github.com/luofei614/SocketLog
- * @author luofei614<weibo.com/luofei614>
- */ 
-document.addEventListener('DOMContentLoaded', init, false);
-function init()
-{
-    if(localStorage.getItem('address'))
-    {
-        document.getElementById('address').value=localStorage.getItem('address'); 
-    }
+var init;
 
-    if(localStorage.getItem('client_id'))
-    {
-        document.getElementById('client_id').value=localStorage.getItem('client_id'); 
-    }
-    var status=localStorage.getItem('status');
-    if(status)
-    {
-        var text='';
+init = function() {
+  var convert;
+  convert = function(e) {
+    var content, wrapper;
+    content = document.getElementById('content').value;
+    wrapper = document.getElementById('qrcode_wrapper');
+    wrapper.textContent = "";
+    new QRCode(wrapper, {
+      text: content,
+      width: 128,
+      height: 128,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    e.preventDefault();
+    return false;
+  };
+  return document.querySelector('form button').addEventListener('click', convert, false);
+};
 
-        switch(status)
-        {
-            case "open":
-                text='链接成功';
-            break;
-            case "close":
-                text='链接断开';
-            break;
-            case "error":
-                text='链接失败';
-            break;
-            default:
-              alert('运行状态异常');
-            break;
-        }
-        document.getElementById('status').innerHTML=text; 
-    }
-
-    document.getElementById('save').addEventListener('click',save,false);
-}
-
-function save()
-{
-    localStorage.setItem('address',document.getElementById('address').value);
-    localStorage.setItem('client_id',document.getElementById('client_id').value);
-    chrome.extension.getBackgroundPage().ws_restart();
-    window.close();
-}
+(function(document) {
+  return document.addEventListener('DOMContentLoaded', init, false);
+})(document);

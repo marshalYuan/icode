@@ -1,23 +1,42 @@
-(function(_this) {
-  return (function(chrome) {
-    var save;
-    save = function(info, tab) {
-      var pageUrl, srcUrl;
-      console.log(info);
-      console.log(tab);
-      srcUrl = info.srcUrl;
-      pageUrl = info.pageUrl;
-      console.log(info.mediaType);
-      chrome.tabs.getSelected(null, function(tab) {
-        return chrome.tabs.sendRequest(tab.id, info, function(response) {
-          return console.log(response.farewell);
-        });
-      });
-    };
-    chrome.contextMenus.create({
-      title: "iCode",
-      contexts: ['image', 'link', 'video', 'audio', 'selection'],
-      onclick: save
+(function(chrome) {
+  var saveImg, saveSelection, saveUrl;
+  saveImg = function(info, tab) {
+    chrome.tabs.getSelected(null, function(tab) {
+      return chrome.tabs.sendRequest(tab.id, {
+        info: info,
+        type: "image"
+      }, function(response) {});
     });
+  };
+  saveUrl = function(info, tab) {
+    chrome.tabs.getSelected(null, function(tab) {
+      return chrome.tabs.sendRequest(tab.id, {
+        info: info,
+        type: "link"
+      }, function(response) {});
+    });
+  };
+  saveSelection = function(info, tab) {
+    chrome.tabs.getSelected(null, function(tab) {
+      return chrome.tabs.sendRequest(tab.id, {
+        info: info,
+        type: "selection"
+      }, function(response) {});
+    });
+  };
+  chrome.contextMenus.create({
+    title: "iCode - 图片地址二维码",
+    contexts: ['image'],
+    onclick: saveImg
   });
-})(this)(chrome);
+  chrome.contextMenus.create({
+    title: "iCode - 链接地址二维码",
+    contexts: ['link'],
+    onclick: saveUrl
+  });
+  chrome.contextMenus.create({
+    title: "iCode - 所选文字二维码",
+    contexts: ['selection'],
+    onclick: saveSelection
+  });
+})(chrome);
